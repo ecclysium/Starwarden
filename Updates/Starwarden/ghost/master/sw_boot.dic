@@ -1,0 +1,117 @@
+OnFirstBoot
+{
+	//If you add variables, make sure to initialize them here!
+	//Note - I haven't added anything about username or pronouns here because it's all handled by the SSP prefs
+	stroke = 0
+	LastTalk = ""
+	fontheight = 12
+	
+	
+	starNames = IARRAY
+	starDesignations= IARRAY
+	
+	allstarbrains = IARRAY //storage memory
+	
+	starBrain1 = (0.5,0.5,0.5) //for this version of the ghost, this is the only one used. It is "active memory"
+	starBrain2 = (0.5,0.5,0.5)
+	starBrain3 = (0.5,0.5,0.5)
+	starStages = IARRAY
+	starTimers = IARRAY
+	starArchetypes = IARRAY
+	starSpeeds = IARRAY
+	
+	starsXY = IARRAY
+	starwardenXY = IARRAY
+	
+	activeStarIndex = -1
+	hydrogenfed = 0
+	thisstarfed = 0
+	starsbopped = 0
+	starspet = 0
+	
+	popquizzeson = 1
+	questionsright = 0
+	questionsattempted = 0
+	
+	AMinit
+	--
+	
+	//"\1\s[-1]%(swbase)Hello, what brings you to the stars? "
+	"\![raise,OnFirstBootDialogue]"
+	
+	//"\1\s[-1]%(swbase)"
+}
+
+OnFirstBootDialogue : all{
+	OnGenerateStar(0) //first star!
+	activeStarIndex = 0
+	OnLoadStars
+	"\1twinkle? \w8twinkle twinkle?\w8\w8"
+	"\0%(swbase)...\w8Ah. \w8\w4This is new.\w8\w8"
+	"\1\n\n[half]twinkle! \w8twinkle!\w8\w8" //happy
+	"\0\n\n[half]It appears \w8the little one was drawn to your hydrogen cells, \w4there.\w8\w8"
+	"\1\n\n[half]twinkle!\w8\0\x"
+
+	"\0%(swoutreach)You’ve been here on your lonesome for a considerable time, haven’t you? \w8%(swbase)Even stranger is your lack of a reaction. \w8%(swsmile)Your kind usually screams upon seeing my visage.\w8\w8"
+	"\1twinkle?\w8\w8"
+	"\0%(swoutreach)\n\n[half]Hail, \w4human. \w8Your kind knows me by many names— \w8\w9%(swbase)But you know me best as \f[color,default.anchor]The Starwarden.\f[color,default] \w8%(swclose)It is my role to look after the stars in my care, to grow and corral them into constellations...\w8\w8"
+	"\1\n\n[half]twinkle!\w8\w8" //happy
+	"\0\n\n[half]...\w8%(swbase)And \w4especially \w4feed them. \w8Spare some hydrogen for them, \w4would you?\e"
+
+
+}
+
+OnInitialize
+{
+	
+	//If you want some variables to reset on boot, put them here. This event will happen even if you add other events like OnGhostChanged
+	//OnInitialize is a NOTIFY event! That means it cannot return scripts. This event is only meant for things like variable changes. See this page on Ukadoc for more info: https://ukagakadreamteam.github.io/ukadoc/manual/spec_shiori3.html
+	
+	//If you add new variables in updates, I recommend initializing them like so:
+	//if !ISVAR("NewVariable"); NewVariable = 0
+	//This means that it will only set the new variable if the user doesn't already have it, so that their variables don't get overwritten
+	
+	if reference0 != "reload" //For things you want to reset EXCEPT when just reloading; a convenience for you the dev, basically
+	{
+		LastTalk = ""
+	}
+	
+	stardir = 0
+}
+
+OnBoot
+{
+	
+	AMinit
+	--
+	"\![raise,OnBootDialogue]"
+
+}
+
+
+OnBootDialogue{
+	_temp = SHIORI3FW.UserBirthday
+	_user_birthday = "%(_temp[1])/%(_temp[2])" //M/D, if you want it D/M you can switch it around
+	_today = "%(month)/%(day)" //Again, switch this around if using D/M
+	"\1\s[-1]%(swbase)"
+	
+	--
+	"\0%(swbase)There you are. \w8The little ones have been getting fussy without you. \w8\w4Do quell them."
+	"\0%(swbase)Hm. \w8You’ve returned. \w8\w4Perhaps you can assist me a little more, \w4in the time we have together."
+	"\0%(swbase)Oh. \w8Greetings again, human. \w8You’re here to help once more, if I’m correct?"
+
+	--
+	OnLoadStars
+}
+
+
+
+OnClose
+{
+	"\0%(swbase)Back to your business, then? \w8Don’t lose yourself, human."
+	"\0%(swbase)Hm. \w8I see. \w8Farewell, then."
+	"\0%(swbase)Oh? \w8Don’t be too long, now. \w8\w4Or do. \w8Your idea of a long time is much different from mine, after all."
+
+	--
+	"\w8\w8\-" //This is what makes the ghost close (after a short pause), do not remove the \- , and MAKE SURE you don't use a \e before this point or it won't work
+}

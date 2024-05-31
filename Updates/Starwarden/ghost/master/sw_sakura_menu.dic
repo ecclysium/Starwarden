@@ -1,0 +1,176 @@
+SakuraMenuGreetings : nonoverlap
+{
+	"\0%(swbase)Hail, human. \w3State your business."
+	"%(swbase)Yes? \w3Looking for something?"
+	"\0%(swbase)I see you need something from us."
+	"\0%(swbase)I’m listening. \w3Speak."
+}
+
+//Because there is an all modifier here, you don't need to write -- between menu options
+OnSakuraMenu : all
+{
+	"%(swbase)\b2\![set,autoscroll,disable]"
+	if SHIORI3FW.Eventid == "OnMouseDoubleClick"; SakuraMenuGreetings //The check here is so they won't comment if you click the back button. Remove if you prefer
+	
+	"\n\n\_q"
+	
+	"\![*]\q[Talk to me,OnAiTalk]"
+	if LastTalk != ""; "  \![*]\q[Say that again,OnLastTalk]"
+	"\n\n[half]"
+	
+	if activeStarIndex > -1{
+		"\![*]\q[What's the star doing?,OnWhatsTheStarDoing]  "
+		if fontheight > 10; "\n"
+		if hydrogenfed == 0 {
+			"\n\![*]\q[They want my hydrogen cells?,OnTreatStar]"
+		}else{
+			_r = RAND(3)
+			if _r == 0{
+				"\![*]\q[Give tasty hydrogen,OnTreatStar]"
+			}else{
+				"\![*]\q[Give %(starNames[activeStarIndex]) a treat,OnTreatStar]"
+			}
+			
+		}
+		
+	}
+	"\n"
+	
+	"\![*]\q[Change Star,OnStarList]\n\n[half]"
+	
+	//if popquizzeson == 0; "\![*]\q[Test meddle,OnConstellationQuiz]\n\n"
+	
+	"\![*]\q[Nevermind,blank]\n"	
+	if fontheight >= 18{
+		"\f[align,center]\_a[OnSettingsMenu]\_b[img/biggear.png,inline]\_a\n\n"
+	}else{
+		"\f[align,center]\_a[OnSettingsMenu]\_b[img/gear.png,inline]\_a\n\n"
+	}
+	
+	
+}
+
+OnLastTalk
+{
+	LastTalk
+}
+
+
+OnWhatsTheStarDoing{
+
+	case starActivity[activeStarIndex]{
+		when 0{ //wander
+			"\0%(swbase)Stars are curious things. \w8It’s wandering around the area at the moment. \w8\w8%(swsmile)They sometimes get in the way, \w4or dip farther out, \w8but it’s never a bother to me."
+		}
+		
+		when 1{ //follow mouse
+			"\0%(swbase)%(swsmile)It seems the star is fond of you, human. \w8Aren’t they such cute little things? \w8\w8%(swbase)If it bothers you, \w8you can always dismiss them."
+		}
+		
+		when 2{ //corner time
+			"\0%(swbase)Ah, \w4it’s behavior isn’t something to worry about. \w8%(swsmile)Stars need alone time, after all, and it seems those crannies in space-time are cozy to them. \w8%(swoutreach)%(swsmile)Or so they tell me."
+		}
+		
+		when 3{ //hiding behind Starwarden
+			"\0%(swbase)%(swsmile)They come to me for shelter, \w4when they desire it. \w8\w4It’s nothing to worry about."
+		}
+		
+		when 4{ //sulking
+			"\0%(swbase)%(swfrown)Poor thing. \w8It seems a bit tired, \w4it’s wandering around so slowly. \w8\w4%(swbase)%(swsmile)Give it time, \w4or invite it back home."
+		}
+		
+		when 5{ //mingling -- currently deprecated
+		
+		}
+	
+	}
+
+}
+
+OnTreatStar{
+	if hydrogenfed == 0{
+		"\0%(swbase)Stars are hungry little things. \w8\w4%(swoutreach)You humans could feed them nonstop, \w2and they’d never be full. \w8\w4%(swbase)It’s a pointless endeavor, \w4but it makes them happy. \w8If you have the cells to spare, \w4it wouldn’t hurt, \w4now would it?"
+	}else{
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Look at them go! \w8How adorable..."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)What gluttony. \w8It’s adorable, so you are excused."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Selfish little thing. \w8Go on, now."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Yes, \w4yes, \w4have your food."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)You humans have more hydrogen to spare than I thought. \w8Perhaps you aren’t all that fragile after all."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Is that delicious? \w8\w8...\w8%(swbase)No, \w8you didn’t see me ask that."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Is that delicious? \w8\w8...\w8%(swbase)No, \w8erase your memory of me saying that."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Hungry little thing. \w8When will you be full?"
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)How sweet. \w8Thank you, \w4human."
+		"\1%(yap)!! \w8\w8\0%(swbase)%(swsmile)Feeding them? \w8Thank you for the snack, \w4human."
+	}
+	--
+	"\e"
+	--
+	OnStarReward(activeStarIndex)
+	hydrogenfed++
+	thisstarfed++
+	"\1mm!"
+}
+
+
+
+OnSettingsMenu : all{
+	"\_q%(swbase)\![set,autoscroll,disable]"
+	
+	"Font Size: \q[-,OnDownFont] %fontheight \q[+,OnUpFont]\n"
+	OnTalkRateMenu
+	"\n[half]Pop Quizzes: "
+	if popquizzeson == 1{
+		"\![*]\q[On,OnFlipPopQuiz]"
+	}else{
+		"\![*]\q[Off,OnFlipPopQuiz]"
+	}
+	
+	"\n\n\![*]\q[Back,OnSakuraMenu]  \![*]\q[Nevermind,blank]"
+
+
+}
+
+OnFlipPopQuiz{
+	popquizzeson = BITWISE_XOR(popquizzeson,1)
+	"\c\C%(OnSettingsMenu)"
+}
+
+OnUpFont{
+	fontheight++
+	"\c\C%(OnSettingsMenu)"
+}
+
+OnDownFont{
+	fontheight--
+	"\c\C%(OnSettingsMenu)"
+}
+
+
+OnTalkRateMenu : all
+{	
+	//This is just setting up a label, you may need to add to it or tweak it if you change what rates are available
+	_talkrate = "Off"
+	if aitalkinterval == 30; _talkrate = "30 seconds"
+	elseif aitalkinterval == 60; _talkrate = "1 minute"
+	elseif aitalkinterval == 180; _talkrate = "3 minutes"
+	elseif aitalkinterval == 300; _talkrate = "5 minutes"
+	elseif aitalkinterval == 600; _talkrate = "10 minutes"
+	
+//	"%(swbase)\b2\![set,autoscroll,disable]\_q"
+	"Talk interval: %(_talkrate)\n    "
+	
+	"\![*]\q[Off,OnTalkRateChange,0]  "
+	"\![*]\q[30s,OnTalkRateChange,30]  "
+	"\![*]\q[1m,OnTalkRateChange,60]  "
+	"\![*]\q[3m,OnTalkRateChange,180]  "
+	"\![*]\q[5m,OnTalkRateChange,300]  "
+	"\![*]\q[10m,OnTalkRateChange,600]\n"
+
+	//"\![*]\q[Back,OnSakuraMenu]  \![*]\q[Nevermind,blank]"
+}
+
+OnTalkRateChange
+{
+	aitalkinterval = TOINT(reference0)
+	OnSettingsMenu
+}

@@ -1,0 +1,175 @@
+
+descript
+{
+	version,1
+}
+
+//—————————————————————————————— Sakura surfaces ——————————————————————————————
+
+surface0
+{
+
+	
+	//Expressions
+	
+	animation100.interval,runonce
+	animation100.pattern0,overlay,100,0,0,0
+		
+	animation110.interval,never
+	animation110.pattern0,parallelstop,(100,120,130,500)
+	animation110.pattern1,overlay,110,0,0,0
+	
+	animation120.interval,never
+	animation120.pattern0,parallelstop,(100,110,130)
+	animation120.pattern1,overlay,120,0,0,0
+	
+	animation130.interval,never
+	animation130.pattern0,parallelstop,(100,110,120,500)
+	animation130.pattern1,overlay,130,0,0,0
+	
+	
+	//blink
+	animation500.interval,random,4
+	animation500.pattern0,overlay,115,0,0,0
+	animation500.pattern1,overlay,116,100,0,0
+	animation500.pattern2,overlay,-1,50,0,0
+	
+	
+	//talkin
+	animation501.interval,talk,6
+	animation501.pattern0,alternativestart,(502,503,504,505,506)
+	
+	animation502.interval,never
+	animation502.pattern0,overlay,107,0,0,0
+	animation502.pattern1,overlay,101,30,0,0
+	animation502.pattern2,overlay,102,70,0,0
+	animation502.pattern3,overlay,-1,100,0,0
+	
+	animation503.interval,never
+	animation503.pattern0,overlay,101,0,0,0
+	animation503.pattern1,overlay,102,40,0,0
+	animation503.pattern2,overlay,103,10,0,0
+	animation503.pattern3,overlay,104,60,0,0
+	animation503.pattern4,overlay,105,90,0,0
+	animation503.pattern5,overlay,-1,100,0,0
+	
+	animation504.interval,never
+	animation504.pattern0,overlay,108,0,0,0
+	animation504.pattern1,overlay,102,10,0,0
+	animation504.pattern2,overlay,104,60,0,0
+	animation504.pattern3,overlay,106,20,0,0
+	animation504.pattern4,overlay,-1,170,0,0
+	
+	animation505.interval,never
+	animation505.pattern0,overlay,106,0,0,0
+	animation505.pattern1,overlay,107,110,0,0
+	animation505.pattern2,overlay,105,80,0,0
+	animation505.pattern3,overlay,103,20,0,0
+	animation505.pattern4,overlay,-1,170,0,0
+	
+	animation506.interval,never
+	animation506.pattern0,overlay,102,0,0,0
+	animation506.pattern1,overlay,103,10,0,0
+	animation506.pattern2,overlay,108,60,0,0
+	animation506.pattern3,overlay,104,20,0,0
+	animation506.pattern4,overlay,-1,100,0,0
+	
+
+}
+
+//—————————————————————————————— Kero surfaces ——————————————————————————————
+
+surface10000
+{
+
+
+	animation4.interval,always
+	animation4.pattern0,overlay,10002,0,0,0
+ 	animation4.pattern1,overlay,10001,600,0,0
+	animation4.pattern2,overlay,10,600,0,0
+	animation4.pattern3,overlay,10002,600,0,0
+	
+	
+	animation5.interval,always
+	animation5.pattern0,move,0,180,0,1
+	animation5.pattern1,move,0,180,0,3
+	animation5.pattern2,move,0,180,0,5
+	animation5.pattern3,move,0,180,0,7
+	animation5.pattern4,move,0,180,0,9
+	animation5.pattern5,move,0,180,0,12
+	animation5.pattern6,move,0,180,0,9
+	animation5.pattern7,move,0,180,0,5
+	animation5.pattern8,move,0,180,0,3
+	animation5.pattern9,move,0,180,0,1
+}
+
+
+surface10100
+{
+	animation4.interval,always
+	animation4.pattern0,overlay,10102,0,0,0
+ 	animation4.pattern1,overlay,10101,600,0,0
+	animation4.pattern2,overlay,10100,600,0,0
+	animation4.pattern3,overlay,10102,600,0,0
+	
+	
+	animation5.interval,always
+	animation5.pattern0,move,0,180,0,1
+	animation5.pattern1,move,0,180,0,3
+	animation5.pattern2,move,0,180,0,5
+	animation5.pattern3,move,0,180,0,7
+	animation5.pattern4,move,0,180,0,9
+	animation5.pattern5,move,0,180,0,12
+	animation5.pattern6,move,0,180,0,9
+	animation5.pattern7,move,0,180,0,5
+	animation5.pattern8,move,0,180,0,3
+	animation5.pattern9,move,0,180,0,1
+}
+
+
+
+surface10200
+{
+	animation4.interval,always
+	animation4.pattern0,overlay,10202,0,0,0
+ 	animation4.pattern1,overlay,10201,600,0,0
+	animation4.pattern2,overlay,10200,600,0,0
+	animation4.pattern3,overlay,10202,600,0,0
+	
+	
+	animation5.interval,always
+	animation5.pattern0,move,0,180,0,1
+	animation5.pattern1,move,0,180,0,3
+	animation5.pattern2,move,0,180,0,5
+	animation5.pattern3,move,0,180,0,7
+	animation5.pattern4,move,0,180,0,9
+	animation5.pattern5,move,0,180,0,12
+	animation5.pattern6,move,0,180,0,9
+	animation5.pattern7,move,0,180,0,5
+	animation5.pattern8,move,0,180,0,3
+	animation5.pattern9,move,0,180,0,1
+}
+
+
+
+//Expressions
+surface.append10000-19999{
+	
+	animation100.interval,never
+	animation100.pattern0,overlay,20000,0,0,0
+	
+	animation101.interval,never
+	animation101.pattern0,overlay,20001,0,0,0
+	
+	animation102.interval,never
+	animation102.pattern0,overlay,20002,0,0,0
+	
+	animation103.interval,never
+	animation103.pattern0,overlay,20003,0,0,0
+	
+	animation104.interval,never
+	animation104.pattern0,overlay,20004,0,0,0
+
+	
+	
+}

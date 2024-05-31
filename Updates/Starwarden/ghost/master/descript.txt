@@ -1,0 +1,20 @@
+charset,UTF-8
+
+name,Starwarden
+type,ghost
+
+shiori,yaya.dll
+
+craftman,WhatAPhantasia & Ecclysium
+craftmanw,WhatAPhantasia & Ecclysium
+craftmanurl,
+
+sakura.name,Starwarden
+kero.name,Star
+
+icon,icon.ico
+
+sstp.allowunspecifiedsend,0
+
+balloon,Connected Stars
+default.balloon.path,/connected_stars

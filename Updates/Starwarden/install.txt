@@ -1,0 +1,7 @@
+charset,UTF-8
+type,ghost
+
+name,Starwarden
+directory,starwarden
+balloon.directory,Connected Stars
+balloon.source.directory,connected_stars

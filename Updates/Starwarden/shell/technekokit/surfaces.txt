@@ -1,0 +1,174 @@
+//Some quick notes:
+//1: surfaces.txt does NOT support same line comments. If you want to write a comment, ALWAYS PUT IT ON ITS OWN LINE. If you put comments after other bits of code in the same line, it may seem to work at first, but it can cause cryptic errors down the line. Save yourself the trouble. Always put comments on their own lines in here. Additionally, it doesn't do block comments with /* and */
+//2: The example blink code is set up with the new definition, which I recommend you use. Here is my guide to what that means: https://ukagaka.zichqec.com/guide/old_definition_vs_new_definition
+//If you want to use old definition, make sure to erase that 'version,1' bit.
+//3: It is very common for people to feel stuck on how to start, because they don't know what expressions to make without having dialogue, but they don't know what dialogue to write without having expressions. If you're feeling that way, I highly suggest using emoji as substitutes just to get you started! That may sound weird if you're not fond of emoji, but seriously, just give it a try. I've found that just writing a few messages in Discord and using the emoji to signify surface changes is a great help to get me past that initial hump where it feels impossible.
+//4: Also consider taking a look at Ukadoc's list of recommended surfaces! https://ukagakadreamteam.github.io/ukadoc/manual/descript_shell_surfaces.html#caption_standarddef This can give you an idea of how to start, but also, some external SHIORI events use these surfaces by default! If your ghost has them, it will react as intended! It's not required, but it's something you can consider.
+//5: If you'd like a bit more structure to start with, I have a shell template you can use! https://ukagaka.zichqec.com/template/simplicity_shell
+
+
+descript
+{
+	version,1
+}
+
+//—————————————————————————————— Sakura surfaces ——————————————————————————————
+
+surface0
+{
+
+	
+	
+	//Expressions
+	
+	animation100.interval,never
+	animation100.pattern0,overlay,100,0,0,0
+		
+	animation110.interval,never
+	animation110.pattern0,parallelstop,(100,120,130,500)
+	animation110.pattern1,overlay,110,0,0,0
+	
+	animation120.interval,never
+	animation120.pattern0,parallelstop,(100,110,130)
+	animation120.pattern1,overlay,120,0,0,0
+	
+	animation130.interval,never
+	animation130.pattern0,parallelstop,(100,110,120,500)
+	animation130.pattern1,overlay,130,0,0,0
+	
+	
+	//blink
+	animation500.interval,random,4
+	animation500.pattern0,overlay,115,0,0,0
+	animation500.pattern1,overlay,116,100,0,0
+	animation500.pattern2,overlay,-1,50,0,0
+	
+	
+	//talkin
+	animation501.interval,talk,3
+	animation501.pattern0,alternativestart,(502,503,504)
+	
+	animation502.interval,never
+	animation502.pattern0,overlay,103,0,0,0
+	animation502.pattern1,overlay,101,30,0,0
+	animation502.pattern2,overlay,102,70,0,0
+	animation502.pattern3,overlay,-1,100,0,0
+	
+	animation503.interval,never
+	animation503.pattern0,overlay,102,0,0,0
+	animation503.pattern1,overlay,101,40,0,0
+	animation503.pattern2,overlay,103,10,0,0
+	animation503.pattern3,overlay,-1,100,0,0
+	
+	animation504.interval,never
+	animation504.pattern0,overlay,101,0,0,0
+	animation504.pattern1,overlay,102,10,0,0
+	animation504.pattern2,overlay,103,60,0,0
+	animation504.pattern3,overlay,-1,170,0,0
+	
+	
+	animation800.interval,runonce
+	animation800.pattern0,overlay,200,0,0,0
+	
+
+	
+
+}
+
+//—————————————————————————————— Kero surfaces ——————————————————————————————
+
+surface10000
+{
+
+
+	animation4.interval,always
+ 	animation4.pattern1,overlay,10001,0,0,0
+	animation4.pattern2,overlay,10,600,0,0
+	animation4.pattern3,overlay,10001,600,0,0
+	
+	
+	animation5.interval,always
+	animation5.pattern0,move,0,180,0,1
+	animation5.pattern1,move,0,180,0,3
+	animation5.pattern2,move,0,180,0,5
+	animation5.pattern3,move,0,180,0,7
+	animation5.pattern4,move,0,180,0,9
+	animation5.pattern5,move,0,180,0,12
+	animation5.pattern6,move,0,180,0,9
+	animation5.pattern7,move,0,180,0,5
+	animation5.pattern8,move,0,180,0,3
+	animation5.pattern9,move,0,180,0,1
+}
+
+
+surface10100
+{
+
+
+	animation4.interval,always
+ 	animation4.pattern1,overlay,10101,0,0,0
+	animation4.pattern2,overlay,10100,600,0,0
+	animation4.pattern3,overlay,10101,600,0,0
+	
+	
+	animation5.interval,always
+	animation5.pattern0,move,0,180,0,1
+	animation5.pattern1,move,0,180,0,3
+	animation5.pattern2,move,0,180,0,5
+	animation5.pattern3,move,0,180,0,7
+	animation5.pattern4,move,0,180,0,9
+	animation5.pattern5,move,0,180,0,12
+	animation5.pattern6,move,0,180,0,9
+	animation5.pattern7,move,0,180,0,5
+	animation5.pattern8,move,0,180,0,3
+	animation5.pattern9,move,0,180,0,1
+}
+
+
+
+surface10200
+{
+
+
+	animation4.interval,always
+	animation4.pattern0,overlay,10201,0,0,0
+	animation4.pattern1,overlay,10200,600,0,0
+	animation4.pattern2,overlay,10201,600,0,0
+	
+	
+	animation5.interval,always
+	animation5.pattern0,move,0,180,0,1
+	animation5.pattern1,move,0,180,0,3
+	animation5.pattern2,move,0,180,0,5
+	animation5.pattern3,move,0,180,0,7
+	animation5.pattern4,move,0,180,0,9
+	animation5.pattern5,move,0,180,0,12
+	animation5.pattern6,move,0,180,0,9
+	animation5.pattern7,move,0,180,0,5
+	animation5.pattern8,move,0,180,0,3
+	animation5.pattern9,move,0,180,0,1
+}
+
+
+
+//Expressions
+surface.append10000-19999{
+	
+	animation100.interval,never
+	animation100.pattern0,overlay,20000,0,0,0
+	
+	animation101.interval,never
+	animation101.pattern0,overlay,20001,0,0,0
+	
+	animation102.interval,never
+	animation102.pattern0,overlay,20002,0,0,0
+	
+	animation103.interval,never
+	animation103.pattern0,overlay,20003,0,0,0
+	
+	animation104.interval,never
+	animation104.pattern0,overlay,20004,0,0,0
+
+	
+	
+}

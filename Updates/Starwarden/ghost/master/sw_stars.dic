@@ -1,0 +1,721 @@
+//Star brains and stuff!!
+
+
+//For loading and activating living stars when rebooting.
+OnLoadStars : all{
+	//For each star, see if one exists. If it does, reload it. 
+	/*for _i = 0; _i < 1; _i++{
+		
+		if starNames[_i] != ""{
+
+			_char = _i + 1
+			_speed = starSpeeds[_i] * 2 + 5
+			"\p[%_char]\s[10%(_i)00] |MK,D,%_char,%_speed||A,%_char|"
+			--
+			OnStarNextAction(_i)
+			--
+			OnStartActivity(_i)
+		}
+	}
+	*/
+	thisstarfed = 0
+	_speed = starSpeeds[activeStarIndex] * 2 + 8
+	_in = allstarbrains[activeStarIndex]
+	starBrain1[0] = TOREAL(_in[0,','])
+	starBrain1[1] = TOREAL(_in[1,','])
+	starBrain1[2] = TOREAL(_in[2,','])
+	starBrain1[3] = TOREAL(_in[3,','])
+	starBrain1[4] = TOREAL(_in[4,','])
+	starBrain1[5] = TOREAL(_in[5,','])
+	_appear = starArchetypes[activeStarIndex]
+	_coords = OnGetStarRealPosition(activeStarIndex)
+	saveCoords(activeStarIndex,_coords[0],_coords[1])
+	AMCLEAR(1)
+	"\1\s[10%(_appear)00]|MK,D,1,%_speed||A,1|"
+	--
+	OnStarNextAction(activeStarIndex)
+	
+}
+
+OnStarFaces : all{
+	for _i = 0; _i < 1; _i++{
+		
+		if starNames[_i] != ""{
+
+			_char = _i + 1
+			_speed = starSpeeds[_i] * 2 + 5
+			"\p[%_char]\s[10%(_i)00]"
+			--
+			OnStarNextAction(_i)
+		}
+	}
+}
+
+
+OnStarList : all{
+	"\_q\0"
+	if ARRAYSIZE(allstarbrains) > 5{
+		"\b2"
+	}
+	for _i = 0; _i < ARRAYSIZE(allstarbrains); _i++{
+		if _i != activeStarIndex{
+			//"\![*]\q[%(starNames[_i]) (%(starDesignations[_i])) - Stage %(starStages[_i]),OnChangeStar,%_i]\n"
+			"\![*]\q[%(starNames[_i]) (%(starDesignations[_i])) - Stage %(starStages[_i]),OnChangeStar,%_i]\n"
+		}else{
+			//"\![*]\![*]\q[%(starNames[_i]) (%(starDesignations[_i])) - Stage %(starStages[_i]),OnStashStar,%_i]\n"
+			"\![*]\![*]\q[%(starNames[_i]) (%(starDesignations[_i])) - Stage %(starStages[_i]),OnStashStar,%_i]\n"
+		}
+	
+	}
+	
+	if ARRAYSIZE(allstarbrains) < 10; "\n\![*]\q[Generate New,OnAppendGenerateStar]"
+	
+	"\n\n\![*]\q[Nevermind,blank]"	
+	
+	
+}
+
+
+
+
+OnChangeStar : all{
+	//First, save current info.
+	if activeStarIndex > -1{
+		unloadStar(activeStarIndex)
+	}
+	_ind = TOINT(reference0)
+	activeStarIndex = _ind
+	loadBrain(allstarbrains[_ind])
+	_appear = starArchetypes[_ind]
+	_speed = starSpeeds[_ind] * 2 + 8
+	thisstarfed = 0
+	"\1\s[10%(_appear)00]|MK,D,1,%_speed||A,1|%(OnStarNextAction(activeStarIndex))%(ChangeStarMessages)\n\n[half]"
+	--
+	OnStarList
+}
+
+OnStashStar : all{
+	unloadStar(reference0)
+	"\1\s[-1]|C,1|%(StashStarMessages)"
+
+}
+
+unloadStar{
+	_ind = TOINT(_argv[0])
+	_stringBrain = ""
+	for _i = 0; _i < 6; _i++{
+		_stringbrain += starBrain1[_i] + ","
+	}
+
+	//Store the info!
+	allstarbrains[_ind] = _stringBrain
+	
+	activeStarIndex = -1
+}
+
+
+OnEndStars{
+	"|K|"
+}
+
+OnFormStarDialogue{
+	"\0%(swform)%(swclose)Coalescing, \w8orbitting, \w8increasing pressure... \w8\w8All I need for a new star."
+	"\0%(swform)%(swclose)Mass, \w8mass, \w8more mass... \w8\w8A new light has formed."
+	"\0%(swform)%(swclose)Gravity, \w8stronger, \w8stronger... \w8\w8A flash of light."
+	
+}
+
+OnAppendGenerateStar : all{
+	OnGenerateStar(ARRAYSIZE(allstarbrains))
+	if activeStarIndex > -1{
+		unloadStar(activeStarIndex)
+	}
+	_ind = ARRAYSIZE(allstarbrains) - 1
+	activeStarIndex = _ind
+	loadBrain(allstarbrains[_ind])
+	_appear = starArchetypes[_ind]
+	_speed = starSpeeds[_ind] * 2 + 8
+	thisstarfed = 0
+	"\1\s[-1]%(OnFormStarDialogue)\1\s[10%(_appear)00]\x"
+	OnStarList
+}
+
+//arg 0 is index
+OnGenerateStar{
+	_ind = TOINT(_argv[0])
+	_rand = generateNewStarName
+	starNames[_ind] = _rand[0]
+	starDesignations[_ind] = _rand[1]
+	starStages[_ind] = 0
+	starTimers[_ind] = RAND(100)
+	_arche = RAND(3)
+	starArchetypes[_ind] = _arche
+	starSpeeds[_ind] = RAND(5) + 3
+	starActivity[_ind] = 3
+
+	_speed = starSpeeds[_ind] * 2 + 8
+	
+	allstarbrains ,= "0.5,0.5,0.5,0.5,0.5,0.5"
+	
+	//loadBrain(allstarbrains[ARRAYSIZE(allstarbrains)-1])
+
+
+}
+
+loadBrain{
+	
+	_in = _argv[0]
+	starBrain1[0] = TOREAL(_in[0,','])
+	starBrain1[1] = TOREAL(_in[1,','])
+	starBrain1[2] = TOREAL(_in[2,','])
+	starBrain1[3] = TOREAL(_in[3,','])
+	starBrain1[4] = TOREAL(_in[4,','])
+	starBrain1[5] = TOREAL(_in[5,','])
+	//"%(starBrain1)\n"
+
+}
+
+
+
+//arg 0 is index
+OnSpawnStar{
+	_ind = TOINT(_argv[0])
+	_rand = generateNewStarName
+	starNames[_ind] = _rand[0]
+	starDesignations[_ind] = _rand[1]
+	starStages[_ind] = 0
+	starTimers[_ind] = RAND(60) + 10
+	_arche = RAND(3)
+	starArchetypes[_ind] = _arche
+	starSpeeds[_ind] = RAND(5) + 1
+	
+	case _arche{
+		when 0{
+			allstarbrains,= "0.55,0.5,0.5,0.5,0.5"
+		}
+		when 1{
+			allstarbrains,= "0.5,0.55,0.5,0.5,0.5"
+		}
+		when 2{
+			allstarbrains,= "0.5,0.5,0.5,0.55,0.5"
+		}
+	}
+	
+	
+	activeStarIndex = _ind
+	
+	_char =  1
+	_speed = starSpeeds[_ind] * 2 + 8
+	"\0%(OnFormStarDialogue)\p[%_char]\s[10%(_arche)00]|MK,D,%_char,%_speed||A,%_char|"
+	--
+	OnStarNextAction(activeStarIndex)
+	//OnStartActivity(activeStarIndex)
+
+}
+
+
+//arg 0 is index (currently kinda deprecated since we just keep 1 in memory now)
+OnStarNextAction{
+	_ind = TOINT(_argv[0])
+	//decide if they will exploit or explore.
+	_epsilon = RAND((starStages[_ind] + 4) * 2) 
+	_proclivity = IARRAY
+	_behavior = starActivity[_ind]
+	
+	
+	_char =  1
+	_speed = starSpeeds[_ind] * 2 + 5
+	_proclivity = starBrain1 //we only have one working slot for now
+	
+	/*
+	case _ind{
+		when 0{
+			_proclivity = starBrain1
+		}
+		when 1{
+			_proclivity = starBrain2
+		}
+		when 2{
+			_proclivity = starBrain3
+		}
+	}
+	*/
+	
+	if _epsilon > 6{ //exploit
+	
+		_maxindex = 0
+		
+		for _i = 0; _i < 4; _i++{
+			if _proclivity[_i] > _proclivity[_maxindex]{
+				_maxindex = _i
+			}elseif _proclivity[_i] == _proclivity[_maxindex] && RAND(2) == 1{
+				_maxindex = _i
+			}
+		}
+		_behavior = _maxindex
+	
+	}elseif _epsilon < 3{ //explore, if not a good range to keep doing what they currently are
+		_behavior = RAND(5)
+	
+	}
+	
+	starActivity[_ind] = _behavior
+	_appear = starArchetypes[activeStarIndex]
+
+	//Hot update coord check!
+	_coords = OnGetStarRealPosition(activeStarIndex)
+	saveCoords(activeStarIndex,_coords[0],_coords[1])
+	
+	--
+	if "balloon" _in_ var.req.value[ASEARCH("Status",var.req.key)]{
+		"\C\_q\1\s[10%(_appear)00]\i[10%(_behavior)]"
+	}else{
+		"\1\s[10%(_appear)00]\i[10%(_behavior)]"
+	}
+	--
+	
+	
+	OnStartActivity(activeStarIndex)
+	
+
+}
+
+//0 is the index
+OnStartActivity{
+	_i = TOINT(_argv[0])
+	
+
+	
+	
+	case starActivity[_i]{
+		when 0{ //wander
+			OnWander(_i)
+		}
+		when 1{ //follow mouse
+			OnFollowMouse(_i)
+		}
+		when 2{ //run from mouse
+			OnRunAwayMouse(_i)
+		}
+		when 3{ //follow sakura
+			OnFollowSakura(_i)
+		}
+		when 4{ //sulk
+			OnSulk(_i)
+		}
+		when 5{ //mingle
+			OnMingle(_i)
+		}
+	}
+
+}
+
+StarDirection{
+	_old = starsXY[activeStarIndex]
+	_newx = TOINT(_argv[0])
+	_result = ""
+	_olddir = stardir
+	
+	if _newx > TOINT(_old[0,"##"]){
+		stardir = 1
+		_result = "\1\![set,scaling,-100,100]"
+	}else{
+		stardir = 0 
+		_result = "\1\![set,scaling,100,100]"
+	}
+	
+	if _result != "" && "balloon" _in_ var.req.value[ASEARCH("Status",var.req.key)]{
+		"\C\_q%_result"
+	}else{
+		"%_result"
+	}
+
+}
+
+
+
+//Picks a random location to go to in range.
+OnWander{
+	_ind = TOINT(_argv[0])
+	_char = 1
+	
+	_x = RAND(TOINT(monitorright) )- 80
+	_y = RAND(TOINT(monitordown) )- 80
+	StarDirection(_x)
+	saveCoords(_ind,_x,_y)
+	
+	//"\p[%_char]www X: %_x Y: %_y  |AD,%_char,%_x,%_y,L|"
+	AMADD(_char,_x,_y,"L")
+
+}
+
+OnFollowMouse{
+	_ind = TOINT(_argv[0])
+	_char = 1
+	
+	_coords = getMouseCoordinates
+	_x = TOINT(_coords[0])  + RAND(90) - 100
+	_y = TOINT(_coords[1])  + RAND(90) - 100
+	StarDirection(_x)
+	saveCoords(_ind,_x,_y)
+	
+	//"\p[%_char]mmm! X: %_x Y: %_y  |C,%_char||AD,%_char,%_x,%_y,L|"
+	AMADD(_char,_x,_y,"L")
+}
+
+//For now its more of a "hide in corner"
+OnRunAwayMouse{
+	_ind = TOINT(_argv[0])
+	_char =  1
+	
+	_coords = getMouseCoordinates
+	_x =  RAND(200) - 300 + TOINT(monitorright/(monitornum + 1))
+	_y = RAND(200) - 300 + TOINT(monitordown)
+	StarDirection(_x)
+	saveCoords(_ind,_x,_y)
+	
+	//"\p[%_char]D: X: %_x Y: %_y |C,%_char||AD,%_char,%_x,%_y,L|"
+	AMADD(_char,_x,_y,"L")
+
+}
+
+OnFollowSakura{
+	_ind = TOINT(_argv[0])
+	_char =  1
+	
+	OnGetWardenPosition
+	_x = TOINT(starwardenXY[0])  - RAND(200) - 50
+	_y = TOINT(starwardenXY[1])  - RAND(400) - 100
+	StarDirection(_x)
+	saveCoords(_ind,_x,_y)
+	
+	//"\p[%_char]sw! X: %_x Y: %_y |C,%_char||AD,%_char,%_x,%_y,L|"
+	AMADD(_char,_x,_y,"L")
+
+}
+
+OnSulk{
+	_ind = TOINT(_argv[0])
+	_char = 1
+	
+	_x = RAND(TOINT(monitorright) ) + 50
+	_y = RAND(TOINT(monitordown/5)) + 50
+	StarDirection(_x)
+	saveCoords(_ind,_x,_y)
+	
+	//"\p[%_char]sss X: %_x Y: %_y  |AD,%_char,%_x,%_y,L|"
+	AMADD(_char,_x,_y,"L")
+}
+
+//Deprecated for now!
+OnMingle{
+	_ind = TOINT(_argv[0])
+	_char = 1
+	_mingletarget = _ind + 1 + RAND(2)
+	if _mingletarget > 2; _mingletarget = 0
+	_targetloc = starsXY[_mingletarget]
+	
+	
+	_x = TOINT(_targetloc[0],"##") + RAND(100) - 50
+	_y = TOINT(_targetloc[1],"##") + RAND(100) - 50
+	StarDirection(_x)
+	saveCoords(_ind,_x,_y)
+	
+	//"\p[%_char]<3 X: %_x Y: %_y |C,%_char||AD,%_char,%_x,%_y,L|"
+	AMADD(_char,_x,_y,"L")
+}
+
+
+
+
+
+OnStarPunish{
+	_ind = activeStarIndex
+	starBrain1[starActivity[_ind]] -= .01
+	starsbopped++
+	/*case _ind{
+		when 0{
+			starBrain1[starActivity[_ind]] -= .01
+		}
+		when 1{
+			starBrain2[starActivity[_ind]] -= .01
+		}
+		when 2{
+			starBrain3[starActivity[_ind]] -= .01
+		}
+	}
+	*/
+	"\p[%(_argv[0])]wah!"
+
+
+}
+
+
+OnStarReward{
+	_ind = activeStarIndex
+	starBrain1[starActivity[_ind]] += .01
+	"\1:D"
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//0 - index
+//1 - x
+//2 - y
+saveCoords{
+	_ind = TOINT(_argv[0])
+	
+	_res = _argv[1] + "##" +_argv[2]
+	
+	starsXY[_ind] = _res
+	
+	
+}
+
+
+OnMouseDragStart{
+	AMCLEAR(reference3)
+	//"\p[%reference3]Oh!"
+
+}
+
+OnMouseDragEnd{
+	//AMACTIVATE(reference3)
+	OnStartActivity(TOINT(reference3)-1)
+	//"\p[%reference3]Woah, I've been moved."
+	
+	
+	//Save Sakura's location if needed. 
+//	if reference3 == 0{
+//		starwardenXY[0] = TOINT(reference0)
+	//	starwardenXY[1] = TOINT(reference1)
+//	}
+
+}
+
+OnGetWardenPosition{
+	FUNCTIONEX("window_info.dll","info",BODYHWND[0])
+	_result = valueex[2]
+	starwardenXY[0] = _result[2]
+	starwardenXY[1] = _result[3]
+
+}
+
+//for when you need something super fine!
+OnGetStarRealPosition{
+	FUNCTIONEX("window_info.dll","info",BODYHWND[TOINT(_argv[0])])
+	_result = valueex[2]
+	_return = IARRAY
+	
+	_return ,= _result[2]
+	_return ,= _result[3]
+
+}
+
+
+
+
+
+
+randomStarNames : array{
+
+	"Bingus"
+	"Bongus"
+	"Bobus"
+	"Kyle"
+}
+
+randomStarDesignations : array{
+
+	"B179Y5"
+	"B079Y5"
+	"B0B05"
+	"KY15"
+}
+
+
+
+
+
+getMouseCoordinates{
+	_result = IARRAY
+	_result ,= FUNCTIONEX("proxy_ex.dll","cheese.exe","getx")
+	_result ,= FUNCTIONEX("proxy_ex.dll","cheese.exe","gety")
+	
+	_result
+}
+
+
+//New functions triggered by the AdvancedMovement SAORI
+
+//Ghost has reached a point, but not the end
+OnAMRedirect{
+	//reference0 is the tag number (as in \p[#])
+	//Whatever processing you'd like can go here!
+	
+	//An example of things you can do: 
+	if objecttypes[reference0] != "L"{
+		//types that ignore redirection commands, etc
+	}
+}
+
+//Ghost has finished the assigned path
+OnAMPathComplete{
+	//reference0 is the tag number (as in \p[#])
+	//Whatever processing you'd like can go here!
+	
+	_ind = TOINT(reference0) - 1
+	OnStartActivity(activeStarIndex)
+}
+
+//Ghost has begun hovering
+OnAMStartHover{
+	//reference0 is the tag number (as in \p[#])
+	//Whatever processing you'd like can go here!
+}
+
+
+//An error has occurred
+OnAMError{
+	SENDERROR("[ADVANCEDMOVEMENT] " + reference0)
+
+}
+
+
+
+
+
+//Gather the Info.
+OnDisplayHandover{
+	if monitorleft > reference3[0]; monitorleft = reference3[0]
+	if monitorup > reference3[1]; monitorup = reference3[1]
+	if monitorright < reference3[2]; monitorright = reference3[2]
+	if monitordown < reference3[3]; monitordown = reference3[3]
+	monitornum = reference3[5]
+	//"%reference3\nMinL: %monitorleft MinU: %monitorup\nMaxR: %monitorright MaxD: %monitordown"
+
+}
+
+testgeneratenames : all {
+	"\_q\b2"
+	for _i = 0; _i < 10; _i++{
+		generateNewStarName
+		"\n"
+	}
+	
+}
+
+//Returns an array of a name and designation.
+generateNewStarName{
+	_result = IARRAY
+	_temp = capitalLetter
+	_name = _temp
+	_designation = _temp + "-"
+	
+	//1-3 numbers
+	_times = RAND(3) + 1
+	for _i = 0; _i < _times; _i++{
+		_temp = RAND(10)
+		_name += numberToLetter(_temp)
+		_designation += _temp 
+	}
+	
+	_designation += "-"
+	
+	//1-2 numbers
+	_times = RAND(2) + 1
+	for _i = 0; _i < _times; _i++{
+		_temp = RAND(10)
+		_name += numberToLetter(_temp)
+		_designation += _temp 
+	}
+	
+	_result ,= _name
+	_result ,= _designation
+	
+	_result
+	
+
+
+}
+
+
+capitalLetter{
+	"B"
+	"D"
+	"C"
+	"F"
+	"G"
+	"J"
+	"K"
+	"L"
+	"M"
+	"N"
+	"P"
+	"R"
+	"S"
+	"T"
+	"V"
+	"W"
+	"X"
+	"Y"
+	"Z"
+	
+}
+
+
+
+numberToLetter{
+	case _argv[0]{
+		when 0{
+			"o"
+		}
+		when 1{
+			"i"
+			"l"
+		}
+		when 2{
+			"a"
+			"s"
+		}
+		when 3{
+			"e"
+		}
+		when 4{
+			"a"
+		}when 5{
+			"f"
+			"s"
+		}
+		when 6{
+			"d"
+			"p" 
+			"a"
+		}
+		when 7{
+			"n"
+			"l"
+		}
+		when 8{
+			"b"
+			"h"
+		}
+		when 9{
+			"g"
+			"y"
+		}
+	
+	}
+
+}

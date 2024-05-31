@@ -1,0 +1,44 @@
+//Surfacing! Very rudimentary for now.
+
+
+
+
+
+
+swbase{
+
+	"\0\s[0]\i[100]"
+	
+}
+
+
+
+swoutreach{
+
+	"\0\s[0]"
+	
+}
+
+
+swform{
+
+	"\0\s[0]"
+	
+}
+
+swclose{
+	"\0\s[0]\i[130]"
+}
+
+swsmile{
+	"\0\i[110]"
+}
+
+
+
+swfrown{
+
+	"\0\i[120]"
+	
+}
+

@@ -1,0 +1,235 @@
+OnAiTalk
+{
+	if CHAIN.IDName == ""
+	{
+		LastTalk = RandomTalk
+	}
+	else
+	{
+		LastTalk = ChainTalk
+	}
+	LastTalk
+}
+
+RandomTalk : nonoverlap_pool
+{
+	"\0%(swbase)%(swclose)Be quiet for a moment. \w6Can’t you hear it? \w8%(swbase)They’re sending you messages in the radiation."
+	"\0%(swbase)The patterns the stars make in space-time are so fascinating. \w8%(swclose)Ribbons of interconnecting ripples, echos of existence. \w8\w4%(swbase)I suppose that’s why your lack thereof was so strange."
+	"\0%(swbase)Little things build on one another to create a greater whole. \w6Your sort named the concept after one of your own. \w8Gestalt, was it? \w8\w4How complicated." 
+	"\0%(swbase)The little stars seem so satisfied, fusing all those little elements together..."
+	"\0%(swbase)Do you wonder what hydrogen tastes like to them? \w8I do not. \w8It’s simply nuclear fusion. \w8And yet \w4it seems to make them very happy."
+	"\0%(swbase)What color are stars to you? \w8Your kind don’t have as many visual receptors as I, if I recall correctly. \w8\w8%(swclose)The gap in our perceptions make this topic sort of fruitless, \w4I suppose."
+	"\0%(swbase)%(swfrown)Hm... \w8The amount of stars here is a far cry from what I need for..."
+	"\0%(swbase)The little ones are so noisy. \w8%(swsmile)It’s charming that you don’t seem to mind. \w8%(swclose)Their little voices are comforting, \w4to me."
+	"\0%(swbase)Is it the nature of humans to want more than themselves? \w8\w4%(swclose)...No, \w4there’s no reason for my asking. \w8%(swbase)From what I’ve seen, I can’t help but be curious."
+	//"\0%(swbase)I always thought stars had such short lived lives. \w8Humans are so fragile in comparison."
+	"\0%(swbase)I always thought stars had such short lives. \w8Humans are so fragile in comparison."
+	"\0%(swbase)I find twinkling to be a fascinating phenomena. \w8I haven’t seen it myself, but your memories tell me it’s something from your home planet. \w8Perhaps I’ll go see it myself, \w4eventually."
+	"\0%(swbase)Your kind appreciates constellations. \w8%(swsmile)For that, I could never truly be annoyed by humans."
+	"\0%(swbase)%(swsmile)I’ve never felt lonely out here. \w8Not when I have my stars."
+	"\0%(swbase)%(swclose)... \w8\w8It’s time to be quiet, \w8now. \w8\w8Listen, human."
+	"\0%(swbase)%(swsmile)Certain stars are on the more dramatic side of things. \w8Always making so much noise and fanfare when they run out of food to fuse into energy. \w8%(swoutreach)%(swsmile)It’s cute, \w2isn’t it?"
+	"\0%(swbase)%(swfrown)A pity those high mass stars don’t live their midlives nearly as long as some of those low mass stars. \w8I find their internal workings to be quite fascinating."
+	//"\0%(swbase)Black holes aren’t as scary as your kind believes them to be. \w8%(swoutreach)I’d say neutron stars are more intimidating, really. \w8\w4%(swbase)%(swfrown)%(swclose)The first neutron star I got was a \f[italic,1]magnetar,\f[italic,default] \w8and you know how \f[italic,1]those\f[italic,default] get."
+	"\0%(swbase)Black holes aren’t as scary as your kind believes them to be. \w8%(swoutreach)I’d say neutron stars are more intimidating, really. \w8\w4%(swbase)%(swfrown)%(swclose)The first neutron star I got was a magnetar, \w8and you know how those get.""
+	"\0%(swbase)Space is always so busy. \w8%(swclose)Buzzing and activity coming from all directions, from all sorts of things. \w8%(swbase)%(swfrown)I’ve seen most of it all, though."
+	"\0%(swbase)%(swfrown)Since there’s so many of them, \w8I see so many main system stars going woefully underappreciated. \w8\w8Even I do not have the time to visit them all. \w8\w8%(swbase)%(swsmile)%(swclose)I’m much too busy with my own system here, \w8now."
+
+	"\0%(swbase)There are so many different kinds of situations nebulae can find themselves in. \w8%(swsmile)%(swclose)Wrapped by and tangled in another nebula, \w8scattered with towering cosmic cliffs and great, dark globules... \w8\w8Ahh. \w8%(swoutreach)%(swsmile)That’s exactly what I want with my own stars."
+	"\0%(swbase)You humans love the visible light spectrum. \w8What’s this notion about favorite colors? \w8\w8%(swclose)I suppose mine would be what you call orange, \w8and blue. \w8\w8%(swbase)%(swsmile)You don’t often get to see a nebula speckled in those colors. \w8\w4It’s nice."
+	"\0%(swbase)Have you grown used to how stars behave here? \w8\w4%(swclose)Remember, \w4human, \w8space enjoys behaving contrary to how you expect it to."
+	
+	if popquizzeson == 1; "\![raise,OnConstellationQuiz]"
+	
+	case starActivity[activeStarIndex]{
+		when 3{ //hiding with the warden
+			"\0%(swbase)%(swsmile)%(swclose)...Don’t be shy, little one.\w8 \1%(yap)\w8\w8\0\n\n[half]Yes, \w4it’s alright..."
+			"\0%(swbase)What was that? \w8\1%(yap)!\w8\w8\0\n\n[half]Oh... \w8%(swsmile)Pfft. \w8Of course."
+			"\1%(swbase)%(yap)! \w8\w8\0%(swfrown)Goodness. \w8Do you speak to your friends with that mouth?"
+
+		}
+	}
+}
+
+
+
+
+ChangeStarMessages{
+	"%(swform)%(swsmile)" 
+	--
+	"Come out now, \w4little one."
+	"It’s time to shine again, \w4dear light."
+	"Off to play? \w8Take care of them, will you, human?"
+	"They’re so excited. \w8Play with them a bit, will you?"
+	"They can hardly stay still, hm? \w8Be safe, my star."
+
+}
+
+StashStarMessages{
+	"%(swform)%(swsmile)" 
+	--
+	"Back into the constellation now, is it?"
+	"Another star for the constellations."
+	"Welcome home, dear light."
+	"Sorted back into the great chart of stars.."
+	"You’re all worn out. \w8Get some rest, light."
+	"Forming a constellation again... \w8Rest well."
+	"Back into the order of the constellations..."
+
+
+}
+
+
+
+OnConstellationQuiz : all{
+	//Pick a number for the quiz!
+	_question = QuizQuestions
+	
+	"%(_question[0,'##'])\n\n[half]\_q"
+	
+	_i = 2
+	_options = IARRAY
+	_right = _question[1,'##'] //the right answer
+	_format = RAND(6)
+	
+	//5 options for how they're shuffled from 1 right answer and 4 wrong.
+	case _format{
+		when 0{
+			"\![*]\q[%(_question[1,'##']),OnAnswerQuiz,%(_question[1,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[3,'##']),OnAnswerQuiz,%(_question[3,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[5,'##']),OnAnswerQuiz,%(_question[5,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[2,'##']),OnAnswerQuiz,%(_question[2,'##']),%(_right)]\n"
+		}
+		when 1{
+			"\![*]\q[%(_question[2,'##']),OnAnswerQuiz,%(_question[2,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[4,'##']),OnAnswerQuiz,%(_question[4,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[3,'##']),OnAnswerQuiz,%(_question[3,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[1,'##']),OnAnswerQuiz,%(_question[1,'##']),%(_right)]\n"
+		}
+		when 2{
+			"\![*]\q[%(_question[2,'##']),OnAnswerQuiz,%(_question[2,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[1,'##']),OnAnswerQuiz,%(_question[1,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[5,'##']),OnAnswerQuiz,%(_question[5,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[4,'##']),OnAnswerQuiz,%(_question[4,'##']),%(_right)]\n"
+		}
+		when 3{
+			"\![*]\q[%(_question[3,'##']),OnAnswerQuiz,%(_question[3,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[5,'##']),OnAnswerQuiz,%(_question[5,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[1,'##']),OnAnswerQuiz,%(_question[1,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[4,'##']),OnAnswerQuiz,%(_question[4,'##']),%(_right)]\n"
+		}
+		when 4{
+			"\![*]\q[%(_question[1,'##']),OnAnswerQuiz,%(_question[1,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[4,'##']),OnAnswerQuiz,%(_question[4,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[5,'##']),OnAnswerQuiz,%(_question[5,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[3,'##']),OnAnswerQuiz,%(_question[3,'##']),%(_right)]\n"
+		}
+		when 5{
+			"\![*]\q[%(_question[1,'##']),OnAnswerQuiz,%(_question[1,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[5,'##']),OnAnswerQuiz,%(_question[5,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[2,'##']),OnAnswerQuiz,%(_question[2,'##']),%(_right)]\n"
+			"\![*]\q[%(_question[4,'##']),OnAnswerQuiz,%(_question[4,'##']),%(_right)]\n"
+		}
+	}
+	
+
+}
+
+OnAnswerQuiz{
+	if reference0 == reference1{
+		"\0%(swbase)%(swsmile)Yes, correct! \w8Aren’t stars so fascinating?"
+		"\0%(swbase)%(swsmile)Perfectly recalled, \w4human! \w8\w8Good job."
+		"\0%(swbase)%(swsmile)Indeed! \w8It’s nice to see my works going appreciated!"
+		"\0%(swbase)%(swsmile)Yes, correct! \w8It makes the stars happy when you recognize them, did you know?"
+		"\0%(swbase)%(swsmile)Good, correct! \w8Goodness, \w8does receiving direct recognition always feel this good?"
+		"\0%(swbase)%(swsmile)Indeed, you’re right! \w8Isn’t this such fun?"
+		"\0%(swbase)%(swsmile)Perfect, you’re correct! \w8What fun! \w8I should spring these on you more often..."
+		"\0%(swbase)%(swsmile)Yes, perfect! \w8It’s always good to review these things, \w4isn’t it?"
+		"\0%(swbase)%(swsmile)Yes, indeed! \w8Thank you for your diligence, human. \w8\w4This means a lot to me, truly."
+		
+		questionsright++
+	}else{
+		"\0%(swbase)%(swfrown)Incorrect. \w8I thought you humans knew more than that."
+		"\0%(swbase)%(swfrown)...\w8No. \w8After I worked so hard on them, too."
+		"\0%(swbase)%(swfrown)Wrong. \w8Is this not common knowledge to humans?"
+		"\0%(swbase)%(swfrown)Truly? \w8That \w8is your answer? \w8\w8I don’t know what I expected."
+		"\0%(swbase)%(swfrown)...\w8Eh? \w8No. \w8\w4Don’t humans know this?"
+		"\0%(swbase)%(swfrown)What? \w8No. \w8\w8Don't you learn this as a child?"
+		//"\0%(swbase)%(swfrown)Incorrect. \w8Well, \w8now you know, \w8yes?"
+		"\0%(swbase)%(swfrown)Incorrect. \w8You’ll have to improve that mettle of yours for next time, human."
+		"\0%(swbase)%(swfrown)No, \w4that’s wrong. \w8Don’t you humans keep record of these things?"
+		""
+	
+	}
+	questionsattempted++
+
+}
+
+
+QuizQuestions {
+	"What is the largest constellation visible from Earth?##Hydra##Crux##Vela##Libra##Draco"
+	"What is the smallest constellation visible from earth?##Crux##Libra##Hydra##Vela##Sagitta"
+	"How many constellations were there in your world?##88##102##1208##74##54"
+	"What is a pattern of stars within a constellation called?##asterisms##partial constellations##minor constellations##subgroups##calliope"
+	"What does ''constellation'' mean in Latin?##set with stars##starry##god words##sky pictures##visions"
+	"How many different constellation names begin with the letter C?##22##10##8##43##88"
+	"What is the 13th zodiac constellation named?##Ophiuchus##Vulpecula##Volans##Draco##Horologium"
+	"What constellation has the largest number of visible stars?##Centaurus##Orion##Corvus##Vulpecula##Hydra"
+	"What constellation contains what you call ''Sirius''?##Canis Major##Orion##Little Dipper##Aries##Ophiuchus"
+	"How did the ancient Babylonians interpret your ''Orion''?##* A shepherd##A god##Orion##A deer##A king"
+	"What is similar to a constellation in Hindu culture?##Nakshatra##Veda##Khaana##Bhaagy##Hiran"
+	"What does Circinus represent?##Compass constellation##The circus constellation##A party constellation##Olympus constellation##A pendulum constellation"
+	"What does Horologium represent?##The clock constellation##The pendulum constellation##The hourglass constellation##The library constellation##Horus constellation"
+	"What is Pictor?##The painter's easel constellation##The guy who found most the constellations##The name for star charts##The clock constellation##Knowledge constellation"
+	"What is Saggitarius?##The archer constellation##The horse constellation##The bow constellation##The old woman constellation##The werewolf constellation"
+	"What does the Crater represent?##The cup constellation##The crucible constellation##The goblin constellation##Kratos constellation##Asteroid constellation"
+
+}
+
+
+
+OnMinuteChange : all{
+	
+	//For each star, see if one exists. If it doesn't, consider spawning one. Otherwise, run decision making.
+	if activeStarIndex > -1{
+		for _i = 0; _i < 1; _i++{
+			
+			if starNames[_i] != ""{
+				OnStarNextAction(activeStarIndex)
+			}else{
+				//Star does not exist.
+				_rand = RAND(10)
+				if _rand == 0{
+					//Spawn star.
+					OnSpawnStar(_i)
+				}
+				
+			}
+			if starStages[activeStarIndex] < 6{
+				starTimer[activeStarIndex]--
+				if starTimer[activeStarIndex] <= 0{
+					starStages[activeStarIndex] += 1
+					starTimer[activeStarIndex] = RAND(100) + 60
+				}
+			}
+			
+		}
+	}
+}
+
+
+OnSecondChange
+{
+	
+	checkErrorQueue 
+	
+	/*
+	if starActivity[activeStarIndex] == 1{
+		//Hot update their location, since we're cancelling a prior action!
+		_coords = OnGetStarRealPosition(activeStarIndex)
+		saveCoords(activeStarIndex,_coords[0],_coords[1])
+		AMCLEAR(1)
+		OnFollowMouse(activeStarIndex)
+	}
+	*/
+}
